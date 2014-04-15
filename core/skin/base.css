@@ -626,3 +626,11 @@ a.button:hover {text-decoration:none}
 .buttonGroup .button:not(:only-child) {border-radius:0}
 .buttonGroup .button:not(:only-child):first-child {border-radius:3px 0 0 3px}
 .buttonGroup .button:not(:only-child):last-child {border-radius:0 3px 3px 0}
+#hdr{border-bottom:1px solid #332F2F;}
+/** channel highlight */
+.channel.channel-1,.channels.tabs .selected.pathEnd .channel-1{color: #BE1E3E !important;border-color: #BE1E3E !important;}
+.channel.channel-2,.channels.tabs .selected.pathEnd .channel-2{color: #ff1E3E !important;border-color: #ff1E3E !important;}
+.channel.channel-3,.channels.tabs .selected.pathEnd .channel-3{color: #08f !important;border-color: #08f !important;}
+.channel.channel-4,.channels.tabs .selected.pathEnd .channel-4{color: #B412A6 !important;border-color: #B412A6 !important}
+.channel.channel-5,.channels.tabs .selected.pathEnd .channel-5{color: #2E995D !important;border-color: #2E995D !important;}
+.channel.channel-6,.channels.tabs .selected.pathEnd .channel-6{color: #FFAD45 !important;border-color: #FFAD45 !important;}

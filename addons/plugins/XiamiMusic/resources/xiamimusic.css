@@ -1,0 +1,10 @@
+.XiamiMusic-icon {margin:-6px -2px; display:inline-block;}
+.XiamiMusic-icon span{
+text-indent: -999px;
+width: 12px;
+height: 12px;
+margin: 6px;
+display: inline-block;
+background-image:url('xiami.png');
+background-repeat:no-repeat;
+}

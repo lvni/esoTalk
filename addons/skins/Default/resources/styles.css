@@ -7,7 +7,8 @@ here if necessary.
 
 /* Global */
 body {font-size:13px; margin:0; overflow-y:scroll; background:#D6D8E6; color:#333}
-body, input, textarea, select {font-family:open sans,lucida grande,lucida sans unicode,helvetica,arial,sans-serif}
+/*body, input, textarea, select {font-family:open sans,lucida grande,lucida sans unicode,helvetica,arial,sans-serif}*/
+body, input, textarea, select {font: 100%/1 "Helvetica Neue",Helvetica,STHeiTi,"Microsoft YaHei";}
 input, textarea, select {font-size:100%}
 
 
