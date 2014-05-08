@@ -32,6 +32,8 @@ $form = $data["form"];
 
 <li><label><?php echo T("Confirm password"); ?></label> <?php echo $form->input("confirm", "password"); ?></li>
 
+<li><label><?php echo T("captcha"); ?></label><img src="<?php echo URL("user/captcha");?>" class="captcha" onclick="javascript:this.src='<?php echo URL("user/captcha");?>?v='+Math.random();" title="<?php echo T("click refresh"); ?>"></li>
+<li> <?php echo $form->input("captcha"); ?> </li>
 </ul>
 </div>
 

@@ -83,6 +83,7 @@ $definitions["Back to search"] = "返回";
 $definitions["Base URL"] = "网站网址:";
 $definitions["Bold"] = "加粗";
 $definitions["By %s"] = " 由: %s";
+$definitions["captcha"] = " 验证码";
 
 $definitions["Can suspend/unsuspend members"] = "可以锁定/解锁会员";
 $definitions["Cancel"] = "取消";
@@ -479,6 +480,7 @@ $definitions["message.unsuspendMemberHelp"] = "解冻 %s 将恢复他们的正�
 $definitions["message.upgradeSuccessful"] = "升级成功.";
 $definitions["message.waitToReply"] = "请等待 %s 秒以后再发表新内容.";
 $definitions["message.waitToSearch"] = "请等待 %s 秒以后再发起新的搜索.";
+$definitions["message.captchaError"] = "验证码错误";
 
 
 // Emails.

@@ -52,10 +52,12 @@ public function login()
 
 	// If the login form was submitted, attempt to log in.
 	if ($form->validPostBack("username")) {
-
-		// If the login was successful, redirect or set a json flag, depending on the response type.
-		if (ET::$session->login($form->getValue("username"), $form->getValue("password"), $form->getValue("remember")))
-			$this->redirect(URL(R("return")));
+		if($form->getValue("captcha") !== $_SESSION['authnum_session']){
+			//验证码错误
+			//die("err");
+			$form->error('captcha',T("message.captchaError"));
+		}else if (ET::$session->login($form->getValue("username"), $form->getValue("password"), $form->getValue("remember")))
+			$this->redirect(URL(R("return"))); // If the login was successful, redirect or set a json flag, depending on the response type.
 
 		// Otherwise, get the errors that occurred and pass them to the form.
 		else {
@@ -120,7 +122,11 @@ public function join()
 		// Make sure the passwords match. The model will do the rest of the validation.
 		if ($form->getValue("password") != $form->getValue("confirm"))
 			$form->error("confirm", T("message.passwordsDontMatch"));
-
+		if($form->getValue("captcha") !== $_SESSION['authnum_session']){
+			//验证码错误
+			//die("err");
+			$form->error('captcha',T("message.captchaError"));
+		}
 		if (!$form->errorCount()) {
 
 			$data = array(
@@ -351,5 +357,13 @@ public function reset($hashString = "")
 	$this->data("form", $form);
 	$this->render("user/setPassword");
 }
-
+	public function captcha(){
+	
+		$captcha = PATH_LIBRARY.'/vendor/captcha/class.validatecode.php';
+		require_once($captcha);
+		session_start();    
+		$_vc = new ValidateCode();  //实例化一个对象  
+		$_vc->doimg();    
+		$_SESSION['authnum_session'] = $_vc->getCode();//验证码保存到SESSION中 
+	}
 }

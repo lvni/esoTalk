@@ -634,3 +634,4 @@ a.button:hover {text-decoration:none}
 .channel.channel-4,.channels.tabs .selected.pathEnd .channel-4{color: #B412A6 !important;border-color: #B412A6 !important}
 .channel.channel-5,.channels.tabs .selected.pathEnd .channel-5{color: #2E995D !important;border-color: #2E995D !important;}
 .channel.channel-6,.channels.tabs .selected.pathEnd .channel-6{color: #FFAD45 !important;border-color: #FFAD45 !important;}
+.captcha{vertical-align: middle;cursor:pointer;}
