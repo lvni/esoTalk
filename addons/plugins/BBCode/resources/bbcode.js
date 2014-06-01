@@ -20,8 +20,11 @@ function showImageForm(id){
 				type: "post",
 				data:$("#BBCode_image_upload_box form").serialize(),
 				success: function(data) {
-					if (data.code) return;
-					image_url = data.data;
+					if(!data.status){
+						alert(data.msg);
+						return;
+					}
+					image_url = data.url;
 					ETConversation.wrapText($("#"+id+" textarea"), "[img]", "[/img]", "", image_url);
 					ETSheet.hideSheet("BBCode_image_upload_box");
 				}

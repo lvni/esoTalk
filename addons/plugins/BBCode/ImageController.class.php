@@ -15,7 +15,7 @@ class ImageController extends ETController {
 			return;
 		}
 		//if (!$this->validateToken()) return;
-		$imageuploaddir = PATH_UPLOADS.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.date("Y".DIRECTORY_SEPARATOR."n".DIRECTORY_SEPARATOR."d");
+		$imageuploaddir = PATH_UPLOADS.DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.date("Y/m/d");
 		if(!is_dir($imageuploaddir)){
 			if(!@mkdir($imageuploaddir,0775,true)){
 				return "The $imageuploaddir directory does not exist or is not writeable.";
@@ -27,10 +27,18 @@ class ImageController extends ETController {
 			$destination = $imageuploaddir.DIRECTORY_SEPARATOR.uniqid()."-".$_FILES['my_uploaded_file']['name'];
 			move_uploaded_file($_FILES['my_uploaded_file']['tmp_name'],$destination);
 			$ret = $this->push2Remote(realpath($destination));
+			$json_ret = json_decode($ret,true);
+			if(!$json_ret['data']){
+				// 删除文件
+				@unlink(realpath($destination));
+			}
 			header("Content-Type: application/json;charset=utf-8");
-			echo $ret ;
+			
+			$my_reponse['status'] = $json_ret['code'] == 0 ? true : false;
+			$my_reponse['msg'] = $json_ret['message'];
+			$my_reponse['url'] = $json_ret['data'];
 			//unset($destination);
-		  
+			echo json_encode($my_reponse);
 		}
 	}
 	
