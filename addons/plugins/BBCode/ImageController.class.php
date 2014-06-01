@@ -21,6 +21,7 @@ class ImageController extends ETController {
 				return "The $imageuploaddir directory does not exist or is not writeable.";
 			}
 		}
+		header("Content-Type: application/json;charset=utf-8");
 		//var_dump($_FILES['my_uploaded_file']);
 		if(isset($_FILES['my_uploaded_file']) && isset($_FILES['my_uploaded_file']['tmp_name'])){
 			
@@ -32,11 +33,17 @@ class ImageController extends ETController {
 				// 删除文件
 				@unlink(realpath($destination));
 			}
-			header("Content-Type: application/json;charset=utf-8");
-			
 			$my_reponse['status'] = $json_ret['code'] == 0 ? true : false;
 			$my_reponse['msg'] = $json_ret['message'];
 			$my_reponse['url'] = $json_ret['data'];
+			//unset($destination);
+			echo json_encode($my_reponse);
+		}else{
+			
+			
+			$my_reponse['status'] = false;
+			$my_reponse['msg'] = "请选择图片";
+			$my_reponse['url'] = "";
 			//unset($destination);
 			echo json_encode($my_reponse);
 		}
