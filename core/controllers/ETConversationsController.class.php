@@ -22,7 +22,7 @@ class ETConversationsController extends ETController {
 function index($channelSlug = false)
 {
 	list($channelInfo, $currentChannels, $channelIds, $includeDescendants) = $this->getSelectedChannels($channelSlug);
-
+	
 	// Now we need to construct some arrays to determine which channel "tabs" to show in the view.
 	// $channels is a list of channels with the same parent as the current selected channel(s).
 	// $path is a breadcrumb trail to the depth of the currently selected channel(s).
@@ -53,14 +53,25 @@ function index($channelSlug = false)
 		elseif ($channel["lft"] <= $curChannel["lft"] and $channel["rgt"] >= $curChannel["rgt"])
 			$path[] = $channel;
 	}
-
+	//die("xd");
 	// Store the currently selected channel in the session, so that it can be automatically selected
 	// if "New conversation" is clicked.
 	if (!empty($currentChannels)) ET::$session->store("searchChannelId", $currentChannels[0]);
 
 	// Get the search string request value.
 	$searchString = R("search");
-
+	
+	if($channelSlug == false || $channelSlug == 'all'){
+		// filter spam
+		$spams = C("esoTalk.index.fliter");
+		foreach ($channelIds as $k => $v){
+			if(in_array($v,$spams)){
+				unset($channelIds[$k]);
+			}
+		}
+		
+	}
+	
 	// Last, but definitely not least... perform the search!
 	$search = ET::searchModel();
 	$conversationIDs = $search->getConversationIDs($channelIds, $searchString, count($currentChannels) or !ET::$session->userId);
@@ -70,7 +81,7 @@ function index($channelSlug = false)
 	if ($this->controllerMethod == "markasread" and ET::$session->userId) {
 		ET::conversationModel()->markAsRead($conversationIDs, ET::$session->userId);
 	}
-
+	
 	$results = $search->getResults($conversationIDs);
 
 	// Were there any errors? Show them as messages.
@@ -302,6 +313,7 @@ protected function getSelectedChannels($channelSlug = "")
 					$channelIds[] = $channel["channelId"];
 			}
 		}
+		
 	}
 
 	// If by now we don't have any channel IDs, we must be viewing "all channels." In this case,
