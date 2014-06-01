@@ -23,7 +23,6 @@ ET::$pluginInfo["BBCode"] = array(
  */
 class ETPlugin_BBCode extends ETPlugin {
 
-
 /**
  * Add an event handler to the initialization of the conversation controller to add BBCode CSS and JavaScript
  * resources.
@@ -33,9 +32,16 @@ class ETPlugin_BBCode extends ETPlugin {
 public function handler_conversationController_renderBefore($sender)
 {
 	$sender->addJSFile($this->getResource("bbcode.js"));
+	$sender->addJSFile($this->getResource("jquery.form.js"));
 	$sender->addCSSFile($this->getResource("bbcode.css"));
 }
 
+public function __construct($rootDirectory)
+{
+	parent::__construct($rootDirectory);
+
+	ETFactory::registerController("image", "ImageController", dirname(__FILE__)."/ImageController.class.php");
+}
 
 /**
  * Add an event handler to the "getEditControls" method of the conversation controller to add BBCode
@@ -45,6 +51,7 @@ public function handler_conversationController_renderBefore($sender)
  */
 public function handler_conversationController_getEditControls($sender, &$controls, $id)
 {
+	//var_dump($sender);exit;
 	addToArrayString($controls, "fixed", "<a href='javascript:BBCode.fixed(\"$id\");void(0)' title='".T("Code")."' class='bbcode-fixed'><span>".T("Code")."</span></a>", 0);
 	addToArrayString($controls, "image", "<a href='javascript:BBCode.image(\"$id\");void(0)' title='".T("Image")."' class='bbcode-img'><span>".T("Image")."</span></a>", 0);
 	addToArrayString($controls, "link", "<a href='javascript:BBCode.link(\"$id\");void(0)' title='".T("Link")."' class='bbcode-link'><span>".T("Link")."</span></a>", 0);
@@ -151,5 +158,13 @@ public function handler_format_afterFormat($sender)
 	// Retrieve the contents of the block <pre> tags from the array in which they are stored.
 	if (!$sender->inline) $sender->content = preg_replace("/<pre><\/pre>/ie", "'<pre>' . array_pop(\$this->blockFixedContents) . '</pre>'", $sender->content);
 }
+
+
+
+public function handler_conversationController_renderReplyBox($sender, &$formatted, $post){
+    $view =  $sender->getViewContents("form");
+	$formatted["body"] = substr_replace($formatted["body"], $view, strpos($formatted["body"], "<div class='editButtons'>"), 0);
+}
+
 
 }
